@@ -52,6 +52,7 @@
         linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
       background-size: 40px 40px;
+	  pointer-events: none;
     }
 
     .front  { transform: translateZ(250px); }
@@ -73,6 +74,8 @@
 	  cursor: pointer;
 	  transition: box-shadow 0.2s, border-color 0.2s;
 	  user-select: text;
+	  z-index: 5;
+	  pointer-events: auto;
 	}
 
     .panel:hover {
@@ -102,20 +105,20 @@
       These place each card centered on one wall.
       The translate(-50%, -50%) centers the card itself.
     */
-    .p1 {
-	  transform: translate(-50%, -50%) translateZ(270px);
+	.p1 {
+	  transform: translate(-50%, -50%) translateZ(260px);
 	}
 
 	.p2 {
-	  transform: translate(-50%, -50%) rotateY(90deg) translateZ(270px);
+	  transform: translate(-50%, -50%) rotateY(90deg) translateZ(260px);
 	}
 
 	.p3 {
-	  transform: translate(-50%, -50%) rotateY(180deg) translateZ(270px);
+	  transform: translate(-50%, -50%) rotateY(180deg) translateZ(260px);
 	}
 
 	.p4 {
-	  transform: translate(-50%, -50%) rotateY(-90deg) translateZ(270px);
+	  transform: translate(-50%, -50%) rotateY(-90deg) translateZ(260px);
 	}
 
     #intro {
@@ -281,21 +284,21 @@
         font-size: 0.78rem;
       }
 
-	  .p1 {
-		transform: translate(-50%, -50%) translateZ(185px);
-	  }
+	 .p1 {
+		transform: translate(-50%, -50%) translateZ(175px);
+	 }
 
-	  .p2 {
-		transform: translate(-50%, -50%) rotateY(90deg) translateZ(185px);
-	  }
+	 .p2 {
+		transform: translate(-50%, -50%) rotateY(90deg) translateZ(175px);
+	 }
 
-	  .p3 {
-		transform: translate(-50%, -50%) rotateY(180deg) translateZ(185px);
-	  }
+	 .p3 {
+		transform: translate(-50%, -50%) rotateY(180deg) translateZ(175px);
+	 }
 
-	  .p4 {
-		transform: translate(-50%, -50%) rotateY(-90deg) translateZ(185px);
-	  }	
+	 .p4 {
+		transform: translate(-50%, -50%) rotateY(-90deg) translateZ(175px);
+	 }	
  
       #hud {
         font-size: 0.72rem;

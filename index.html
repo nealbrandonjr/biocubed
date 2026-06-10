@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Neal Brandon Jr. | AZX AI Experience</title>
+
   <style>
     * {
       box-sizing: border-box;
@@ -15,6 +16,7 @@
       font-family: Arial, sans-serif;
       background: radial-gradient(circle at center, #111827, #020617);
       color: white;
+      user-select: none;
     }
 
     #scene {
@@ -23,6 +25,11 @@
       perspective: 900px;
       overflow: hidden;
       position: relative;
+      cursor: grab;
+    }
+
+    #scene:active {
+      cursor: grabbing;
     }
 
     #cube {
@@ -32,8 +39,7 @@
       top: 50%;
       left: 50%;
       transform-style: preserve-3d;
-      transform: translate(-50%, -50%) rotateX(-10deg) rotateY(20deg);
-      transition: transform 0.05s linear;
+      transform: translate(-50%, -50%) rotateX(-8deg) rotateY(20deg);
     }
 
     .wall {
@@ -52,31 +58,25 @@
     .back   { transform: rotateY(180deg) translateZ(250px); }
     .right  { transform: rotateY(90deg) translateZ(250px); }
     .left   { transform: rotateY(-90deg) translateZ(250px); }
-    .top    { transform: rotateX(90deg) translateZ(250px); }
-    .bottom { transform: rotateX(-90deg) translateZ(250px); }
 
-	.panel {
-		position: absolute;
-		width: 260px;
-		min-height: 150px;
-		padding: 18px;
-		border-radius: 18px;
-		background: rgba(15, 23, 42, 0.9);
-		border: 1px solid rgba(221, 87, 255, 0.65);
-		box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
-		cursor: pointer;
-		transform-style: preserve-3d;
-		transition:
-			box-shadow 0.2s,
-			border-color 0.2s;
-	}
+    .panel {
+      position: absolute;
+      width: 280px;
+      min-height: 170px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(221, 87, 255, 0.65);
+      box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
+      cursor: pointer;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      user-select: text;
+    }
 
-	.panel:hover {
-	  border-color: rgba(0,255,252,0.9);
-	  box-shadow:
-		  0 0 20px rgba(0,255,252,0.4),
-		  0 0 40px rgba(0,255,252,0.25);
-	}
+    .panel:hover {
+      box-shadow: 0 0 45px rgba(0, 255, 252, 0.6);
+      border-color: rgba(0, 255, 252, 0.9);
+    }
 
     .panel h2 {
       font-size: 1.1rem;
@@ -88,6 +88,7 @@
       font-size: 0.9rem;
       line-height: 1.4;
       color: #e5e7eb;
+      margin-bottom: 0;
     }
 
     .panel small {
@@ -95,10 +96,25 @@
       font-weight: bold;
     }
 
-    .p1 { transform: translate3d(120px, 160px, 280px); }
-    .p2 { transform: rotateY(90deg) translate3d(110px, 160px, 280px); }
-    .p3 { transform: rotateY(-90deg) translate3d(-110px, 160px, 280px); }
-    .p4 { transform: rotateY(180deg) translate3d(-120px, 160px, 280px); }
+    /*
+      These place each card centered on one wall.
+      The translate(-50%, -50%) centers the card itself.
+    */
+    .p1 {
+      transform: translate3d(110px, 165px, 270px);
+    }
+
+    .p2 {
+      transform: rotateY(90deg) translate3d(110px, 165px, 270px);
+    }
+
+    .p3 {
+      transform: rotateY(180deg) translate3d(-390px, 165px, 270px);
+    }
+
+    .p4 {
+      transform: rotateY(-90deg) translate3d(-390px, 165px, 270px);
+    }
 
     #intro {
       position: fixed;
@@ -112,7 +128,7 @@
     }
 
     .intro-card {
-      max-width: 680px;
+      max-width: 720px;
       padding: 32px;
       border-radius: 24px;
       background: rgba(15, 23, 42, 0.95);
@@ -159,42 +175,78 @@
       position: fixed;
       inset: 0;
       z-index: 20;
-      background: rgba(2, 6, 23, 0.86);
+      background: rgba(2, 6, 23, 0.88);
       align-items: center;
       justify-content: center;
       padding: 24px;
     }
 
     .modal-card {
-      max-width: 720px;
+      max-width: 760px;
       width: 100%;
       background: #0f172a;
       border-radius: 24px;
       padding: 28px;
       border: 1px solid rgba(221, 87, 255, 0.7);
       box-shadow: 0 0 60px rgba(221, 87, 255, 0.35);
+      user-select: text;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
     .modal-card h2 {
       color: #00fffc;
-      margin-top: 0;
+      margin: 0;
+    }
+
+    .page-count {
+      color: #dd57ff;
+      font-weight: bold;
+      white-space: nowrap;
     }
 
     .modal-card p {
       line-height: 1.6;
       color: #e5e7eb;
+      font-size: 1rem;
     }
 
     .modal-card a {
       color: #00fffc;
       font-weight: bold;
+      display: inline-block;
+      margin: 8px 14px 0 0;
     }
 
-    .close-row {
-      margin-top: 20px;
+    .modal-nav {
+      margin-top: 24px;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .circle-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .close-btn {
+      background: transparent;
+      color: #e5e7eb;
+      border: 1px solid rgba(255,255,255,0.25);
     }
 
     @media (max-width: 700px) {
@@ -212,30 +264,52 @@
       .back   { transform: rotateY(180deg) translateZ(165px); }
       .right  { transform: rotateY(90deg) translateZ(165px); }
       .left   { transform: rotateY(-90deg) translateZ(165px); }
-      .top    { transform: rotateX(90deg) translateZ(165px); }
-      .bottom { transform: rotateX(-90deg) translateZ(165px); }
 
       .panel {
-        width: 210px;
-        min-height: 130px;
-        padding: 14px;
+        width: 220px;
+        min-height: 145px;
+        padding: 15px;
+      }
+
+      .panel h2 {
+        font-size: 0.95rem;
       }
 
       .panel p {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
       }
 
-      .p1 { transform: translate3d(60px, 110px, 190px); }
-      .p2 { transform: rotateY(90deg) translate3d(60px, 110px, 190px); }
-      .p3 { transform: rotateY(-90deg) translate3d(-60px, 110px, 190px); }
-      .p4 { transform: rotateY(180deg) translate3d(-60px, 110px, 190px); }
+      .p1 {
+        transform: translate3d(55px, 95px, 185px);
+      }
+
+      .p2 {
+        transform: rotateY(90deg) translate3d(55px, 95px, 185px);
+      }
+
+      .p3 {
+        transform: rotateY(180deg) translate3d(-275px, 95px, 185px);
+      }
+
+      .p4 {
+        transform: rotateY(-90deg) translate3d(-275px, 95px, 185px);
+      }
 
       #hud {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
+      }
+
+      .intro-card {
+        padding: 24px;
+      }
+
+      .modal-card {
+        padding: 22px;
       }
     }
   </style>
 </head>
+
 <body>
 
   <div id="intro">
@@ -243,106 +317,189 @@
       <h1>Hi AZX — Welcome to My AI Cube</h1>
       <p>
         I created this small vibe-coded experience to show how I think, build, and use AI tools.
-        Rotate the cube, click a floating panel, and explore why I believe my background fits the
+        Rotate the cube, click a category card, and explore why I believe my background fits the
         TM AI Engineer role.
       </p>
       <p>
-        Desktop: drag with mouse. Mobile: swipe to rotate. Tap any card to open details.
+        Desktop: drag open space to rotate. Mobile: swipe open space to rotate.
+        Tap a card to open its pages.
       </p>
       <button onclick="startExperience()">Enter Experience</button>
     </div>
   </div>
 
   <div id="hud">
-    Drag / swipe to rotate<br />
-    Click a panel to open details
+    Drag / swipe open space to rotate<br />
+    Click a category card to open it
   </div>
 
   <div id="scene">
     <div id="cube">
       <div class="wall front"></div>
-      <div class="wall back"></div>
       <div class="wall right"></div>
+      <div class="wall back"></div>
       <div class="wall left"></div>
-      <div class="wall top"></div>
-      <div class="wall bottom"></div>
 
-      <div class="panel p1" onclick="openModal(0)">
+      <div class="panel p1" onclick="openModal(0)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
         <small>01</small>
-        <h2>AI-Native Workflow</h2>
-        <p>I use Claude, ChatGPT, Codex, and Gemini as daily tools for building, debugging, documenting, and experimenting.</p>
+        <h2>Technical Experience</h2>
+        <p>SaaS support, SQL, APIs, bug testing, documentation, Salesforce, Jira, Confluence, Linux, and customer troubleshooting.</p>
       </div>
 
-      <div class="panel p2" onclick="openModal(1)">
+      <div class="panel p2" onclick="openModal(1)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
         <small>02</small>
-        <h2>Technical Builder</h2>
-        <p>JavaScript, React, Firebase, APIs, GitHub, terminal work, and AI-assisted development.</p>
+        <h2>AI-Native Experience</h2>
+        <p>Daily use of Claude, ChatGPT, Codex, Gemini, and AI-assisted building through real project work.</p>
       </div>
 
-      <div class="panel p3" onclick="openModal(2)">
+      <div class="panel p3" onclick="openModal(2)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
         <small>03</small>
-        <h2>GTM Automation Fit</h2>
-        <p>I understand CRM workflows, customer support systems, documentation, and AI-powered process improvement.</p>
+        <h2>My Background Experience</h2>
+        <p>10+ years across SaaS support, application troubleshooting, customer-facing technical work, and software learning.</p>
       </div>
 
-      <div class="panel p4" onclick="openModal(3)">
+      <div class="panel p4" onclick="openModal(3)" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
         <small>04</small>
-        <h2>SaaS Support Background</h2>
-        <p>10+ years supporting SaaS applications, troubleshooting bugs, SQL, APIs, and escalation workflows.</p>
+        <h2>Why Me?</h2>
+        <p>I sit between support, software, AI tools, automation, and practical business problem solving.</p>
       </div>
+    </div>
   </div>
 
   <div id="modal">
-    <div class="modal-card">
-      <h2 id="modalTitle"></h2>
+    <div class="modal-card" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+      <div class="modal-top">
+        <h2 id="modalTitle"></h2>
+        <div class="page-count" id="pageCount"></div>
+      </div>
+
       <p id="modalBody"></p>
       <div id="modalLinks"></div>
-      <div class="close-row">
-        <button onclick="closeModal()">Close</button>
-        <button onclick="nextModal()">Next Panel</button>
+
+      <div class="modal-nav">
+        <button class="circle-btn" onclick="previousPage()">&lt;</button>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+        <button class="circle-btn" onclick="nextPage()">&gt;</button>
       </div>
     </div>
   </div>
 
   <script>
     const cube = document.getElementById("cube");
+    const scene = document.getElementById("scene");
     const modal = document.getElementById("modal");
     const modalTitle = document.getElementById("modalTitle");
     const modalBody = document.getElementById("modalBody");
     const modalLinks = document.getElementById("modalLinks");
+    const pageCount = document.getElementById("pageCount");
 
-    let rotateX = -10;
+    let rotateX = -8;
     let rotateY = 20;
     let isDragging = false;
+    let didDrag = false;
     let lastX = 0;
     let lastY = 0;
-    let currentModal = 0;
+    let currentCategory = 0;
+    let currentPage = 0;
 
-    const panels = [
+    const categories = [
       {
-        title: "AI-Native Workflow",
-        body:
-          "I use AI tools as daily working partners, not as a novelty. I use Claude and ChatGPT for planning, debugging, content structure, workflow design, and problem solving. I use Codex-style development to move from idea to working prototype faster. My goal is not to let AI replace thinking, but to use it to increase speed, clarity, and output.",
-        links: []
+        category: "Technical Experience",
+        pages: [
+          {
+            title: "Technical Experience",
+            body:
+              "My strongest professional lane is technical application support. I have supported SaaS applications, handled tickets, reproduced bugs, documented issues, worked with engineers, and helped customers understand technical problems in plain language.",
+            links: []
+          },
+          {
+            title: "SQL, APIs, and Troubleshooting",
+            body:
+              "I have used PostgreSQL, Oracle, MySQL, and MSSQL environments for support and troubleshooting. I have also worked with APIs, Postman, Swagger, SFTP, Linux commands, Salesforce, Jira, Confluence, and remote support tools.",
+            links: []
+          },
+          {
+            title: "How This Fits AZX",
+            body:
+              "The TM AI Engineer role needs someone who can connect tools, data, workflows, people, and business outcomes. My technical background gives me the foundation to build useful automation and understand where systems break.",
+            links: []
+          }
+        ]
       },
       {
-        title: "Technical Builder",
-        body:
-          "I have hands-on experience with JavaScript, React, Vite, Firebase, Firestore, APIs, GitHub, terminal usage, troubleshooting, and application testing. I am strongest at the intersection of technical support, software behavior, documentation, and AI-assisted building.",
-        links: []
+        category: "AI-Native Experience",
+        pages: [
+          {
+            title: "AI-Native Experience",
+            body:
+              "I use AI tools daily, including Claude, ChatGPT, Codex, and Gemini. I use them for planning, debugging, writing, documentation, workflow design, code review, and fast experimentation.",
+            links: []
+          },
+          {
+            title: "Vibe Coding and Iteration",
+            body:
+              "My approach is to start with an idea, build a working version quickly, test it, find the weak spots, and improve it. I do not treat AI as magic. I treat it like a power tool that still needs judgment, testing, and direction.",
+            links: []
+          },
+          {
+            title: "InterThreadWind",
+            body:
+              "InterThreadWind is my main AI-assisted project. It has helped me learn React, Vite, Firebase, Firestore, hosting, moderation logic, UI workflows, and AI-assisted debugging through a real application.",
+            links: [
+              { text: "Visit InterThreadWind", url: "https://interthreadwind.com" }
+            ]
+          }
+        ]
       },
       {
-        title: "GTM Automation Fit",
-        body:
-          "The AZX role mentions CRM automation, prospect profiling, AI-generated briefs, campaign intelligence, and internal workflows. My background in Salesforce, SaaS support, customer troubleshooting, documentation, and workflow analysis gives me a practical foundation for building tools that help a GTM team move faster.",
-        links: []
+        category: "My Background Experience",
+        pages: [
+          {
+            title: "My Background Experience",
+            body:
+              "I have over 10 years of experience in customer-facing support, technical troubleshooting, application support, and SaaS environments. My work has usually sat between customers, software, engineering, documentation, and operations.",
+            links: []
+          },
+          {
+            title: "Career Pattern",
+            body:
+              "The repeated pattern in my career is simple: learn the system, troubleshoot the issue, document the answer, help the customer, and improve the process so the next person moves faster.",
+            links: []
+          },
+          {
+            title: "Portfolio and LinkedIn",
+            body:
+              "My portfolio and LinkedIn show the bridge between my professional support background and my current AI-assisted builder direction.",
+            links: [
+              { text: "Visit Neal's Dev Site", url: "https://nealsdevsite.com" },
+              { text: "LinkedIn", url: "https://www.linkedin.com/in/nealbrandonjr" }
+            ]
+          }
+        ]
       },
       {
-        title: "SaaS Support Background",
-        body:
-          "I have over 10 years of experience supporting SaaS and technical environments. I have worked with customer tickets, bug reproduction, SQL troubleshooting, APIs, escalation workflows, documentation, Jira, Confluence, Salesforce, Linux, and remote support environments.",
-        links: []
-      },
+        category: "Why Me?",
+        pages: [
+          {
+            title: "Why Me?",
+            body:
+              "I am not applying as a traditional machine learning engineer. I am applying as someone who understands software support, customer pain points, workflow friction, AI tools, automation, and how to turn messy problems into usable systems.",
+            links: []
+          },
+          {
+            title: "Why AZX",
+            body:
+              "AZX appears to value people who are curious, fast-moving, AI-native, mission-aligned, and comfortable building from scratch. That matches the way I have been learning and building with AI.",
+            links: []
+          },
+          {
+            title: "What I Would Bring",
+            body:
+              "I would bring practical AI usage, technical troubleshooting, documentation discipline, customer empathy, and a builder mindset. I can help create systems that make a small GTM team move faster and look bigger than it is.",
+            links: []
+          }
+        ]
+      }
     ];
 
     function updateCube() {
@@ -354,39 +511,54 @@
       document.getElementById("intro").style.display = "none";
     }
 
-    function openModal(index) {
-      currentModal = index;
-      const item = panels[index];
+    function openModal(categoryIndex) {
+      currentCategory = categoryIndex;
+      currentPage = 0;
+      renderModalPage();
+      modal.style.display = "flex";
+    }
 
-      modalTitle.textContent = item.title;
-      modalBody.textContent = item.body;
+    function renderModalPage() {
+      const category = categories[currentCategory];
+      const page = category.pages[currentPage];
+
+      modalTitle.textContent = page.title;
+      modalBody.textContent = page.body;
+      pageCount.textContent = `${currentPage + 1} / ${category.pages.length}`;
 
       modalLinks.innerHTML = "";
-      item.links.forEach(link => {
+
+      page.links.forEach(link => {
         const a = document.createElement("a");
         a.href = link.url;
         a.textContent = link.text;
         a.target = "_blank";
-        a.style.display = "inline-block";
-        a.style.marginRight = "16px";
-        a.style.marginTop = "8px";
+        a.rel = "noopener noreferrer";
         modalLinks.appendChild(a);
       });
-
-      modal.style.display = "flex";
     }
 
     function closeModal() {
       modal.style.display = "none";
     }
 
-    function nextModal() {
-      currentModal = (currentModal + 1) % panels.length;
-      openModal(currentModal);
+    function nextPage() {
+      const pages = categories[currentCategory].pages;
+      currentPage = (currentPage + 1) % pages.length;
+      renderModalPage();
     }
 
-    document.addEventListener("mousedown", e => {
+    function previousPage() {
+      const pages = categories[currentCategory].pages;
+      currentPage = (currentPage - 1 + pages.length) % pages.length;
+      renderModalPage();
+    }
+
+    scene.addEventListener("mousedown", e => {
+      if (e.target.closest(".panel") || e.target.closest("#modal")) return;
+
       isDragging = true;
+      didDrag = false;
       lastX = e.clientX;
       lastY = e.clientY;
     });
@@ -401,8 +573,14 @@
       const deltaX = e.clientX - lastX;
       const deltaY = e.clientY - lastY;
 
-      rotateY += deltaX * 0.3;
-      rotateX -= deltaY * 0.3;
+      if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
+        didDrag = true;
+      }
+
+      rotateY += deltaX * 0.22;
+      rotateX -= deltaY * 0.22;
+
+      rotateX = Math.max(-35, Math.min(35, rotateX));
 
       lastX = e.clientX;
       lastY = e.clientY;
@@ -410,13 +588,16 @@
       updateCube();
     });
 
-    document.addEventListener("touchstart", e => {
+    scene.addEventListener("touchstart", e => {
+      if (e.target.closest(".panel") || e.target.closest("#modal")) return;
+
       if (e.touches.length === 1) {
         isDragging = true;
+        didDrag = false;
         lastX = e.touches[0].clientX;
         lastY = e.touches[0].clientY;
       }
-    });
+    }, { passive: true });
 
     document.addEventListener("touchend", () => {
       isDragging = false;
@@ -428,18 +609,26 @@
       const deltaX = e.touches[0].clientX - lastX;
       const deltaY = e.touches[0].clientY - lastY;
 
-      rotateY += deltaX * 0.3;
-      rotateX -= deltaY * 0.3;
+      rotateY += deltaX * 0.22;
+      rotateX -= deltaY * 0.22;
+
+      rotateX = Math.max(-35, Math.min(35, rotateX));
 
       lastX = e.touches[0].clientX;
       lastY = e.touches[0].clientY;
 
       updateCube();
-    });
+    }, { passive: true });
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
         closeModal();
+      }
+
+      if (modal.style.display === "flex") {
+        if (e.key === "ArrowRight") nextPage();
+        if (e.key === "ArrowLeft") previousPage();
+        return;
       }
 
       if (e.key === "ArrowRight") {
@@ -453,15 +642,17 @@
       }
 
       if (e.key === "ArrowUp") {
-        rotateX += 10;
+        rotateX = Math.min(35, rotateX + 10);
         updateCube();
       }
 
       if (e.key === "ArrowDown") {
-        rotateX -= 10;
+        rotateX = Math.max(-35, rotateX - 10);
         updateCube();
       }
     });
+
+    updateCube();
   </script>
 </body>
 </html>

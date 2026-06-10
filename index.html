@@ -11,12 +11,15 @@
       --half-cube: calc(var(--cube-size) / 2);
       --card-width: min(290px, 70vw);
 
-      --dark-bg: #020617;
-      --card-bg: rgba(8, 20, 40, 0.95);
-      --blue: #38bdf8;
-      --light-blue: #7dd3fc;
-      --green: #00ff88;
-      --soft-text: #e5f6ff;
+      --black: #030608;
+      --dark-card: rgba(12, 16, 20, 0.95);
+      --dark-panel: rgba(18, 22, 26, 0.96);
+      --white: #f8fafc;
+      --soft-white: #dbe4ea;
+      --grey: #8f9aa3;
+      --dark-grey: #1f2933;
+      --teal: #00e5d4;
+      --soft-teal: #5ffbf1;
     }
 
     * {
@@ -27,8 +30,11 @@
       margin: 0;
       overflow: hidden;
       font-family: Arial, sans-serif;
-      background: radial-gradient(circle at center, #0f2a44, #020617 70%);
-      color: white;
+      background:
+        radial-gradient(circle at center, rgba(0, 229, 212, 0.12), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.06), transparent 28%),
+        #000;
+      color: var(--white);
       user-select: none;
     }
 
@@ -40,6 +46,10 @@
       position: relative;
       cursor: grab;
       touch-action: none;
+    }
+
+    #scene:active {
+      cursor: grabbing;
     }
 
     #cube {
@@ -60,13 +70,13 @@
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
-      border: 2px solid rgba(0, 255, 136, 0.75);
+      border: 2px solid rgba(0, 229, 212, 0.72);
       box-shadow:
-        0 0 22px rgba(0, 255, 136, 0.45),
-        inset 0 0 20px rgba(56, 189, 248, 0.18);
+        0 0 22px rgba(0, 229, 212, 0.36),
+        inset 0 0 20px rgba(255, 255, 255, 0.08);
       background:
-        linear-gradient(rgba(0,255,136,0.18) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,136,0.18) 1px, transparent 1px);
+        linear-gradient(rgba(0, 229, 212, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 212, 0.16) 1px, transparent 1px);
       background-size: 40px 40px;
     }
 
@@ -81,37 +91,42 @@
       min-height: 185px;
       padding: 20px 20px 58px;
       border-radius: 18px;
-      background: var(--card-bg);
-      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: var(--dark-card);
+      border: 1px solid rgba(0, 229, 212, 0.82);
       box-shadow:
-        0 0 24px rgba(56, 189, 248, 0.55),
-        0 0 48px rgba(125, 211, 252, 0.25);
-      cursor: pointer;
-      user-select: text;
-      transition: box-shadow 0.2s, border-color 0.2s;
+        0 0 24px rgba(0, 229, 212, 0.42),
+        0 0 48px rgba(255, 255, 255, 0.08);
+      cursor: grab;
+      user-select: none;
+      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .panel-card:active {
+      cursor: grabbing;
     }
 
     .panel-card:hover {
-      border-color: rgba(0, 255, 136, 1);
+      border-color: rgba(255, 255, 255, 0.95);
       box-shadow:
-        0 0 25px rgba(0, 255, 136, 0.65),
-        0 0 55px rgba(56, 189, 248, 0.45);
+        0 0 25px rgba(0, 229, 212, 0.65),
+        0 0 55px rgba(255, 255, 255, 0.16);
+      background: rgba(16, 22, 26, 0.97);
     }
 
     .panel-card small {
-      color: var(--green);
+      color: var(--teal);
       font-weight: bold;
     }
 
     .panel-card h2 {
-      color: var(--light-blue);
+      color: var(--white);
       margin: 8px 0 10px;
       font-size: 1.1rem;
-      text-shadow: 0 0 12px rgba(125, 211, 252, 0.7);
+      text-shadow: 0 0 12px rgba(0, 229, 212, 0.55);
     }
 
     .panel-card p {
-      color: var(--soft-text);
+      color: var(--soft-white);
       line-height: 1.4;
       font-size: 0.9rem;
       margin: 0;
@@ -125,7 +140,7 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      color: var(--green);
+      color: var(--teal);
       font-size: 0.72rem;
       font-weight: bold;
       pointer-events: none;
@@ -135,12 +150,12 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      border: 1px solid rgba(0, 255, 136, 0.9);
+      border: 1px solid rgba(0, 229, 212, 0.95);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 14px rgba(0, 255, 136, 0.65);
-      background: rgba(0, 255, 136, 0.08);
+      box-shadow: 0 0 14px rgba(0, 229, 212, 0.7);
+      background: rgba(0, 229, 212, 0.08);
     }
 
     .play-triangle {
@@ -149,15 +164,15 @@
       margin-left: 3px;
       border-top: 8px solid transparent;
       border-bottom: 8px solid transparent;
-      border-left: 12px solid var(--green);
-      filter: drop-shadow(0 0 6px rgba(0,255,136,0.9));
+      border-left: 12px solid var(--teal);
+      filter: drop-shadow(0 0 6px rgba(0, 229, 212, 0.9));
     }
 
     #intro {
       position: fixed;
       inset: 0;
       z-index: 30;
-      background: rgba(2, 6, 23, 0.94);
+      background: rgba(0, 0, 0, 0.94);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -168,28 +183,29 @@
       max-width: 760px;
       padding: 32px;
       border-radius: 24px;
-      background: rgba(8, 20, 40, 0.96);
-      border: 1px solid rgba(56, 189, 248, 0.9);
-      box-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
+      background: var(--dark-panel);
+      border: 1px solid rgba(0, 229, 212, 0.85);
+      box-shadow: 0 0 50px rgba(0, 229, 212, 0.28);
       text-align: center;
     }
 
     .intro-card h1 {
-      color: var(--light-blue);
+      color: var(--white);
       margin-top: 0;
+      text-shadow: 0 0 18px rgba(0, 229, 212, 0.55);
     }
 
     .intro-card p {
       line-height: 1.6;
-      color: var(--soft-text);
+      color: var(--soft-white);
     }
 
     button {
       border: none;
       padding: 12px 18px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--green), var(--light-blue));
-      color: #020617;
+      background: linear-gradient(90deg, var(--teal), var(--white));
+      color: #000;
       font-weight: bold;
       cursor: pointer;
     }
@@ -199,13 +215,13 @@
       top: 16px;
       left: 16px;
       z-index: 8;
-      background: rgba(2, 6, 23, 0.75);
+      background: rgba(0, 0, 0, 0.72);
       padding: 12px 16px;
       border-radius: 14px;
-      border: 1px solid rgba(56, 189, 248, 0.5);
+      border: 1px solid rgba(0, 229, 212, 0.45);
       font-size: 0.85rem;
-      color: var(--soft-text);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+      color: var(--soft-white);
+      box-shadow: 0 0 20px rgba(0, 229, 212, 0.22);
     }
 
     #exitBtn {
@@ -213,9 +229,9 @@
       top: 16px;
       right: 16px;
       z-index: 9;
-      background: rgba(8, 20, 40, 0.9);
-      color: var(--soft-text);
-      border: 1px solid rgba(56, 189, 248, 0.65);
+      background: rgba(18, 22, 26, 0.9);
+      color: var(--white);
+      border: 1px solid rgba(0, 229, 212, 0.65);
     }
 
     #modal {
@@ -223,7 +239,7 @@
       position: fixed;
       inset: 0;
       z-index: 20;
-      background: rgba(2, 6, 23, 0.88);
+      background: rgba(0, 0, 0, 0.9);
       align-items: center;
       justify-content: center;
       padding: 24px;
@@ -232,11 +248,11 @@
     .modal-card {
       max-width: 780px;
       width: 100%;
-      background: #081428;
+      background: var(--dark-panel);
       border-radius: 24px;
       padding: 28px;
-      border: 1px solid rgba(56, 189, 248, 0.9);
-      box-shadow: 0 0 60px rgba(56, 189, 248, 0.4);
+      border: 1px solid rgba(0, 229, 212, 0.88);
+      box-shadow: 0 0 60px rgba(0, 229, 212, 0.35);
       user-select: text;
     }
 
@@ -249,24 +265,25 @@
     }
 
     .modal-card h2 {
-      color: var(--light-blue);
+      color: var(--white);
       margin: 0;
+      text-shadow: 0 0 14px rgba(0, 229, 212, 0.55);
     }
 
     .page-count {
-      color: var(--green);
+      color: var(--teal);
       font-weight: bold;
       white-space: nowrap;
     }
 
     .modal-card p {
       line-height: 1.6;
-      color: var(--soft-text);
+      color: var(--soft-white);
       font-size: 1rem;
     }
 
     .modal-card a {
-      color: var(--green);
+      color: var(--teal);
       font-weight: bold;
       display: inline-block;
       margin: 8px 14px 0 0;
@@ -293,8 +310,8 @@
 
     .close-btn {
       background: transparent;
-      color: var(--soft-text);
-      border: 1px solid rgba(56,189,248,0.45);
+      color: var(--soft-white);
+      border: 1px solid rgba(0, 229, 212, 0.45);
     }
 
     @media (max-width: 700px) {
@@ -348,15 +365,15 @@
         <strong>GTM AI Engineer</strong> role.
       </p>
       <p>
-        Rotate the cube and press the Open button on a category card to explore more.
+        Drag open space or a closed card to rotate the cube. Tap/click a card without dragging to open it.
       </p>
       <button onclick="startExperience()">Enter Experience</button>
     </div>
   </div>
 
   <div id="hud">
-    Drag / swipe open space to rotate<br />
-    Press Open on a card for more
+    Drag open space or a card to rotate<br />
+    Tap/click without dragging to open
   </div>
 
   <button id="exitBtn" onclick="returnToWelcome()">Exit to Welcome</button>
@@ -365,7 +382,7 @@
     <div id="cube">
 
       <div class="face front">
-        <div class="panel-card" onclick="openModal(0)">
+        <div class="panel-card">
           <small>01</small>
           <h2>Technical Systems Experience</h2>
           <p>SaaS support, SQL, APIs, Salesforce, Jira, Confluence, documentation, troubleshooting, and customer-facing technical work.</p>
@@ -377,7 +394,7 @@
       </div>
 
       <div class="face right">
-        <div class="panel-card" onclick="openModal(1)">
+        <div class="panel-card">
           <small>02</small>
           <h2>AI-Native Builder</h2>
           <p>Claude, ChatGPT, Codex, Gemini, rapid prototyping, AI-assisted debugging, and hands-on project building.</p>
@@ -389,7 +406,7 @@
       </div>
 
       <div class="face back">
-        <div class="panel-card" onclick="openModal(2)">
+        <div class="panel-card">
           <small>03</small>
           <h2>GTM Automation Fit</h2>
           <p>CRM workflows, prospect intelligence, AI-generated briefs, content systems, reporting, and sales enablement support.</p>
@@ -401,7 +418,7 @@
       </div>
 
       <div class="face left">
-        <div class="panel-card" onclick="openModal(3)">
+        <div class="panel-card">
           <small>04</small>
           <h2>Why AZX / Why Me?</h2>
           <p>I sit between support, software, AI tooling, automation, documentation, and practical business problem solving.</p>
@@ -445,11 +462,19 @@
 
     let rotateX = -8;
     let rotateY = 20;
-    let isDragging = false;
+
+    let isPointerDown = false;
+    let hasMovedEnoughToDrag = false;
+    let startX = 0;
+    let startY = 0;
     let lastX = 0;
     let lastY = 0;
+    let pointerStartTarget = null;
+
     let currentCategory = 0;
     let currentPage = 0;
+
+    const dragThreshold = 6;
 
     const categories = [
       {
@@ -609,75 +634,98 @@
       renderModalPage();
     }
 
-    scene.addEventListener("mousedown", e => {
+    function beginInteraction(clientX, clientY, target) {
       if (
-        e.target.closest(".panel-card") ||
-        e.target.closest("#modal") ||
-        e.target.closest("button") ||
-        e.target.closest("a")
+        modal.style.display === "flex" ||
+        intro.style.display === "flex" ||
+        target.closest("button") ||
+        target.closest("a")
       ) return;
 
-      isDragging = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-    });
+      isPointerDown = true;
+      hasMovedEnoughToDrag = false;
+      startX = clientX;
+      startY = clientY;
+      lastX = clientX;
+      lastY = clientY;
+      pointerStartTarget = target;
+    }
 
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-    });
+    function moveInteraction(clientX, clientY) {
+      if (!isPointerDown || modal.style.display === "flex" || intro.style.display === "flex") return;
 
-    document.addEventListener("mousemove", e => {
-      if (!isDragging || modal.style.display === "flex" || intro.style.display === "flex") return;
+      const totalX = clientX - startX;
+      const totalY = clientY - startY;
 
-      const deltaX = e.clientX - lastX;
-      const deltaY = e.clientY - lastY;
+      if (
+        Math.abs(totalX) > dragThreshold ||
+        Math.abs(totalY) > dragThreshold
+      ) {
+        hasMovedEnoughToDrag = true;
+      }
+
+      if (!hasMovedEnoughToDrag) return;
+
+      const deltaX = clientX - lastX;
+      const deltaY = clientY - lastY;
 
       rotateY += deltaX * 0.22;
       rotateX -= deltaY * 0.22;
 
       rotateX = Math.max(-35, Math.min(35, rotateX));
 
-      lastX = e.clientX;
-      lastY = e.clientY;
+      lastX = clientX;
+      lastY = clientY;
 
       updateCube();
+    }
+
+    function endInteraction() {
+      if (!isPointerDown) return;
+
+      const card = pointerStartTarget ? pointerStartTarget.closest(".panel-card") : null;
+
+      if (card && !hasMovedEnoughToDrag) {
+        const allCards = Array.from(document.querySelectorAll(".panel-card"));
+        const index = allCards.indexOf(card);
+
+        if (index >= 0) {
+          openModal(index);
+        }
+      }
+
+      isPointerDown = false;
+      hasMovedEnoughToDrag = false;
+      pointerStartTarget = null;
+    }
+
+    scene.addEventListener("mousedown", e => {
+      beginInteraction(e.clientX, e.clientY, e.target);
+    });
+
+    document.addEventListener("mousemove", e => {
+      moveInteraction(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("mouseup", () => {
+      endInteraction();
     });
 
     scene.addEventListener("touchstart", e => {
-      if (
-        e.target.closest(".panel-card") ||
-        e.target.closest("#modal") ||
-        e.target.closest("button") ||
-        e.target.closest("a")
-      ) return;
-
       if (e.touches.length === 1) {
-        isDragging = true;
-        lastX = e.touches[0].clientX;
-        lastY = e.touches[0].clientY;
+        beginInteraction(e.touches[0].clientX, e.touches[0].clientY, e.target);
+      }
+    }, { passive: true });
+
+    document.addEventListener("touchmove", e => {
+      if (e.touches.length === 1) {
+        moveInteraction(e.touches[0].clientX, e.touches[0].clientY);
       }
     }, { passive: true });
 
     document.addEventListener("touchend", () => {
-      isDragging = false;
+      endInteraction();
     });
-
-    document.addEventListener("touchmove", e => {
-      if (!isDragging || modal.style.display === "flex" || intro.style.display === "flex") return;
-
-      const deltaX = e.touches[0].clientX - lastX;
-      const deltaY = e.touches[0].clientY - lastY;
-
-      rotateY += deltaX * 0.22;
-      rotateX -= deltaY * 0.22;
-
-      rotateX = Math.max(-35, Math.min(35, rotateX));
-
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-
-      updateCube();
-    }, { passive: true });
 
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {

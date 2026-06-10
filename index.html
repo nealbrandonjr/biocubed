@@ -9,8 +9,7 @@
     :root {
       --cube-size: min(72vw, 500px);
       --half-cube: calc(var(--cube-size) / 2);
-      --card-depth: calc(var(--half-cube) + 18px);
-      --card-width: min(280px, 70vw);
+      --card-width: min(290px, 70vw);
     }
 
     * {
@@ -33,6 +32,7 @@
       overflow: hidden;
       position: relative;
       cursor: grab;
+      touch-action: none;
     }
 
     #cube {
@@ -44,46 +44,40 @@
       transform-style: preserve-3d;
     }
 
-    .wall {
+    .face {
       position: absolute;
+      inset: 0;
       width: var(--cube-size);
       height: var(--cube-size);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
       border: 2px solid rgba(0, 255, 252, 0.45);
       box-shadow: 0 0 25px rgba(0, 255, 252, 0.25);
       background:
         linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
       background-size: 40px 40px;
-      pointer-events: none;
     }
 
     .front { transform: translateZ(var(--half-cube)); }
     .right { transform: rotateY(90deg) translateZ(var(--half-cube)); }
-    .back { transform: rotateY(180deg) translateZ(var(--half-cube)); }
-    .left { transform: rotateY(-90deg) translateZ(var(--half-cube)); }
+    .back  { transform: rotateY(180deg) translateZ(var(--half-cube)); }
+    .left  { transform: rotateY(-90deg) translateZ(var(--half-cube)); }
 
-	.panel-anchor {
-	  position: absolute;
-	  top: 50%;
-	  left: 50%;
-	  pointer-events: none;
-	  transform-style: preserve-3d;
-	}
-
-	.panel-card {
-	  width: var(--card-width);
-	  min-height: 170px;
-	  padding: 20px;
-	  border-radius: 18px;
-	  background: rgba(15, 23, 42, 0.94);
-	  border: 1px solid rgba(221, 87, 255, 0.7);
-	  box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
-	  cursor: pointer;
-	  user-select: text;
-	  pointer-events: auto;
-	  transform: translate(-50%, -50%);
-	  transition: box-shadow 0.2s, border-color 0.2s;
-	}
+    .panel-card {
+      width: var(--card-width);
+      min-height: 170px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.94);
+      border: 1px solid rgba(221, 87, 255, 0.7);
+      box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
+      cursor: pointer;
+      user-select: text;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
 
     .panel-card:hover {
       box-shadow: 0 0 45px rgba(0, 255, 252, 0.6);
@@ -108,22 +102,6 @@
       margin: 0;
     }
 
-	.card-front {
-	  transform: translateZ(var(--card-depth));
-	}
-
-	.card-right {
-	  transform: rotateY(90deg) translateZ(var(--card-depth));
-	}
-
-	.card-back {
-	  transform: rotateY(180deg) translateZ(var(--card-depth));
-	}
-
-	.card-left {
-	  transform: rotateY(-90deg) translateZ(var(--card-depth));
-	}
-	
     #intro {
       position: fixed;
       inset: 0;
@@ -269,8 +247,7 @@
 
     @media (max-width: 700px) {
       :root {
-        --cube-size: min(80vw, 330px);
-        --card-depth: calc(var(--half-cube) + 16px);
+        --cube-size: min(82vw, 330px);
         --card-width: min(220px, 68vw);
       }
 
@@ -292,6 +269,11 @@
         max-width: 180px;
       }
 
+      #exitBtn {
+        font-size: 0.75rem;
+        padding: 10px 12px;
+      }
+
       .intro-card {
         padding: 24px;
       }
@@ -310,7 +292,7 @@
       <h1>Hi AZX — Welcome to My GTM AI Cube</h1>
       <p>
         I built this small vibe-coded experience to show how I think, build, and use AI tools.
-        This is not meant to be a production app. It is an interactive cover letter showing my fit for the
+        This is an interactive cover letter showing my fit for the
         <strong>GTM AI Engineer</strong> role.
       </p>
       <p>
@@ -329,12 +311,8 @@
 
   <div id="scene">
     <div id="cube">
-      <div class="wall front"></div>
-      <div class="wall right"></div>
-      <div class="wall back"></div>
-      <div class="wall left"></div>
 
-      <div class="panel-anchor card-front">
+      <div class="face front">
         <div class="panel-card" onclick="openModal(0)">
           <small>01</small>
           <h2>Technical Systems Experience</h2>
@@ -342,7 +320,7 @@
         </div>
       </div>
 
-      <div class="panel-anchor card-right">
+      <div class="face right">
         <div class="panel-card" onclick="openModal(1)">
           <small>02</small>
           <h2>AI-Native Builder</h2>
@@ -350,7 +328,7 @@
         </div>
       </div>
 
-      <div class="panel-anchor card-back">
+      <div class="face back">
         <div class="panel-card" onclick="openModal(2)">
           <small>03</small>
           <h2>GTM Automation Fit</h2>
@@ -358,13 +336,14 @@
         </div>
       </div>
 
-      <div class="panel-anchor card-left">
+      <div class="face left">
         <div class="panel-card" onclick="openModal(3)">
           <small>04</small>
           <h2>Why AZX / Why Me?</h2>
           <p>I sit between support, software, AI tooling, automation, documentation, and practical business problem solving.</p>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -563,7 +542,12 @@
     }
 
     scene.addEventListener("mousedown", e => {
-      if (e.target.closest(".panel-card") || e.target.closest("#modal") || e.target.closest("button") || e.target.closest("a")) return;
+      if (
+        e.target.closest(".panel-card") ||
+        e.target.closest("#modal") ||
+        e.target.closest("button") ||
+        e.target.closest("a")
+      ) return;
 
       isDragging = true;
       lastX = e.clientX;
@@ -592,7 +576,12 @@
     });
 
     scene.addEventListener("touchstart", e => {
-      if (e.target.closest(".panel-card") || e.target.closest("#modal") || e.target.closest("button") || e.target.closest("a")) return;
+      if (
+        e.target.closest(".panel-card") ||
+        e.target.closest("#modal") ||
+        e.target.closest("button") ||
+        e.target.closest("a")
+      ) return;
 
       if (e.touches.length === 1) {
         isDragging = true;

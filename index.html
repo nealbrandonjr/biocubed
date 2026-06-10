@@ -81,7 +81,7 @@
 	  cursor: pointer;
 	  user-select: text;
 	  pointer-events: auto;
-	  transform: none;
+	  transform: translate(-50%, -50%);
 	  transition: box-shadow 0.2s, border-color 0.2s;
 	}
 
@@ -109,19 +109,19 @@
     }
 
 	.card-front {
-	  transform: translate3d(-50%, -50%, var(--card-depth));
+	  transform: translateZ(var(--card-depth));
 	}
 
 	.card-right {
-	  transform: translate3d(72%, -50%, 0);
+	  transform: rotateY(90deg) translateZ(var(--card-depth));
 	}
 
 	.card-back {
-	  transform: translate3d(-50%, -50%, calc(var(--card-depth) * -1));
+	  transform: rotateY(180deg) translateZ(var(--card-depth));
 	}
 
 	.card-left {
-	  transform: translate3d(-172%, -50%, 0);
+	  transform: rotateY(-90deg) translateZ(var(--card-depth));
 	}
 	
     #intro {

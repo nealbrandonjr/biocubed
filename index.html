@@ -59,19 +59,21 @@
     .right  { transform: rotateY(90deg) translateZ(250px); }
     .left   { transform: rotateY(-90deg) translateZ(250px); }
 
-    .panel {
-      position: absolute;
-      width: 280px;
-      min-height: 170px;
-      padding: 20px;
-      border-radius: 18px;
-      background: rgba(15, 23, 42, 0.92);
-      border: 1px solid rgba(221, 87, 255, 0.65);
-      box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
-      cursor: pointer;
-      transition: box-shadow 0.2s, border-color 0.2s;
-      user-select: text;
-    }
+	.panel {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  width: 280px;
+	  min-height: 170px;
+	  padding: 20px;
+	  border-radius: 18px;
+	  background: rgba(15, 23, 42, 0.92);
+	  border: 1px solid rgba(221, 87, 255, 0.65);
+	  box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
+	  cursor: pointer;
+	  transition: box-shadow 0.2s, border-color 0.2s;
+	  user-select: text;
+	}
 
     .panel:hover {
       box-shadow: 0 0 45px rgba(0, 255, 252, 0.6);
@@ -101,20 +103,20 @@
       The translate(-50%, -50%) centers the card itself.
     */
     .p1 {
-      transform: translate3d(110px, 165px, 270px);
-    }
+	  transform: translate(-50%, -50%) translateZ(270px);
+	}
 
-    .p2 {
-      transform: rotateY(90deg) translate3d(110px, 165px, 270px);
-    }
+	.p2 {
+	  transform: translate(-50%, -50%) rotateY(90deg) translateZ(270px);
+	}
 
-    .p3 {
-      transform: rotateY(180deg) translate3d(-390px, 165px, 270px);
-    }
+	.p3 {
+	  transform: translate(-50%, -50%) rotateY(180deg) translateZ(270px);
+	}
 
-    .p4 {
-      transform: rotateY(-90deg) translate3d(-390px, 165px, 270px);
-    }
+	.p4 {
+	  transform: translate(-50%, -50%) rotateY(-90deg) translateZ(270px);
+	}
 
     #intro {
       position: fixed;
@@ -279,22 +281,22 @@
         font-size: 0.78rem;
       }
 
-      .p1 {
-        transform: translate3d(55px, 95px, 185px);
-      }
+	  .p1 {
+		transform: translate(-50%, -50%) translateZ(185px);
+	  }
 
-      .p2 {
-        transform: rotateY(90deg) translate3d(55px, 95px, 185px);
-      }
+	  .p2 {
+		transform: translate(-50%, -50%) rotateY(90deg) translateZ(185px);
+	  }
 
-      .p3 {
-        transform: rotateY(180deg) translate3d(-275px, 95px, 185px);
-      }
+	  .p3 {
+		transform: translate(-50%, -50%) rotateY(180deg) translateZ(185px);
+	  }
 
-      .p4 {
-        transform: rotateY(-90deg) translate3d(-275px, 95px, 185px);
-      }
-
+	  .p4 {
+		transform: translate(-50%, -50%) rotateY(-90deg) translateZ(185px);
+	  }	
+ 
       #hud {
         font-size: 0.72rem;
       }

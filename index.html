@@ -55,24 +55,28 @@
     .top    { transform: rotateX(90deg) translateZ(250px); }
     .bottom { transform: rotateX(-90deg) translateZ(250px); }
 
-    .panel {
-      position: absolute;
-      width: 260px;
-      min-height: 150px;
-      padding: 18px;
-      border-radius: 18px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(221, 87, 255, 0.65);
-      box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
-      cursor: pointer;
-      transform-style: preserve-3d;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+	.panel {
+		position: absolute;
+		width: 260px;
+		min-height: 150px;
+		padding: 18px;
+		border-radius: 18px;
+		background: rgba(15, 23, 42, 0.9);
+		border: 1px solid rgba(221, 87, 255, 0.65);
+		box-shadow: 0 0 30px rgba(221, 87, 255, 0.35);
+		cursor: pointer;
+		transform-style: preserve-3d;
+		transition:
+			box-shadow 0.2s,
+			border-color 0.2s;
+	}
 
-    .panel:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 45px rgba(0, 255, 252, 0.6);
-    }
+	.panel:hover {
+	  border-color: rgba(0,255,252,0.9);
+	  box-shadow:
+		  0 0 20px rgba(0,255,252,0.4),
+		  0 0 40px rgba(0,255,252,0.25);
+	}
 
     .panel h2 {
       font-size: 1.1rem;
